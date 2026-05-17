@@ -6,10 +6,10 @@ import plotly.graph_objects as go
 import numpy as np
 
 # Configuración de la página
-st.set_page_config(page_title="Análisis Promigas", layout="wide", page_icon="📈")
+st.set_page_config(page_title="Análisis Promigas", layout="wide")
 
 # Título y descripción
-st.title("📈 Análisis del Precio de la Acción de Promigas vs Variables Regresoras")
+st.title("Análisis del Precio de la Acción de Promigas vs Variables Regresoras")
 st.markdown("""
 Este dashboard interactivo analiza la relación entre el precio de la acción de **Promigas (BVC)** y dos variables macroeconómicas clave (regresoras):
 1. **TRM (Tasa Representativa del Mercado - USD/COP)**: Afecta los costos, deudas y exposición cambiaria de la empresa.
@@ -67,30 +67,30 @@ try:
     corr_oil = df['Promigas_Price_COP'].corr(df['Brent_Oil_USD'])
 
     # Mostrar métricas y coeficientes de correlación
-    st.header("📊 Coeficientes de Correlación")
+    st.header("Coeficientes de Correlación")
     st.markdown("El coeficiente de correlación de Pearson evalúa el grado de asociación lineal entre dos variables. Varía entre -1 y 1.")
 
     col1, col2 = st.columns(2)
     with col1:
         st.metric(label="Correlación: Promigas vs TRM", value=f"{corr_trm:.4f}")
         if abs(corr_trm) > 0.7:
-            st.info("💡 Existe una **fuerte** correlación lineal.")
+            st.info("Existe una **fuerte** correlación lineal.")
         elif abs(corr_trm) > 0.3:
-            st.info("💡 Existe una **moderada** correlación lineal.")
+            st.info("Existe una **moderada** correlación lineal.")
         else:
-            st.info("💡 Existe una **débil o nula** correlación lineal.")
+            st.info("Existe una **débil o nula** correlación lineal.")
 
     with col2:
         st.metric(label="Correlación: Promigas vs Petróleo Brent", value=f"{corr_oil:.4f}")
         if abs(corr_oil) > 0.7:
-            st.info("💡 Existe una **fuerte** correlación lineal.")
+            st.info("Existe una **fuerte** correlación lineal.")
         elif abs(corr_oil) > 0.3:
-            st.info("💡 Existe una **moderada** correlación lineal.")
+            st.info("Existe una **moderada** correlación lineal.")
         else:
-            st.info("💡 Existe una **débil o nula** correlación lineal.")
+            st.info("Existe una **débil o nula** correlación lineal.")
 
     # Visualizaciones
-    st.header("📈 Visualizaciones en el Tiempo")
+    st.header("Visualizaciones en el Tiempo")
 
     # Gráfico 1: Promigas vs TRM
     st.subheader("1. Evolución del Precio de Promigas vs TRM (USD/COP)")
@@ -142,7 +142,7 @@ try:
     st.plotly_chart(fig2, use_container_width=True)
 
     # Scatter plots (Dispersión) para ver la relación directamente
-    st.subheader("🔍 Gráficos de Dispersión (Asociación Directa)")
+    st.subheader("Gráficos de Dispersión (Asociación Directa)")
     col3, col4 = st.columns(2)
 
     with col3:
