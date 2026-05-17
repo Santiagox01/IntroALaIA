@@ -19,12 +19,12 @@ Este dashboard interactivo analiza la relación entre el precio de la acción de
 @st.cache_data
 def load_and_merge_data():
     # 1. Cargar datos de Promigas (Asegúrate de que el CSV esté en la misma carpeta)
-    df_promigas = pd.read_csv("Promigas Stock Price History.csv")
+    df_promigas = pd.read_csv("Promigas Stock Price History.csv", thousands=',')
     df_promigas['Date'] = pd.to_datetime(df_promigas['Date'])
     
-    # Limpiar formato de precio (eliminar comas y convertir a numérico)
+    # Limpiar formato de precio (por si acaso quedan formatos de texto)
     if df_promigas['Price'].dtype == 'O':
-        df_promigas['Price'] = df_promigas['Price'].str.replace(',', '').astype(float)
+        df_promigas['Price'] = df_promigas['Price'].astype(str).str.replace(',', '', regex=False).astype(float)
     
     df_promigas = df_promigas[['Date', 'Price']].sort_values('Date').reset_index(drop=True)
     df_promigas = df_promigas.rename(columns={'Price': 'Promigas_Price_COP'})
