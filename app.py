@@ -172,29 +172,43 @@ try:
 
 
     st.subheader("Gráficos de Dispersión (Asociación Directa)")
+
+    def scatter_con_tendencia(x_col, y_col, titulo, color, x_label, y_label):
+        x = df[x_col].values
+        y = df[y_col].values
+        m, b = np.polyfit(x, y, 1)
+        x_line = np.linspace(x.min(), x.max(), 100)
+        y_line = m * x_line + b
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=x, y=y, mode='markers',
+                                 marker=dict(color=color, opacity=0.6, size=6),
+                                 name="Datos"))
+        fig.add_trace(go.Scatter(x=x_line, y=y_line, mode='lines',
+                                 line=dict(color='red', width=2, dash='dash'),
+                                 name="Tendencia"))
+        fig.update_layout(title=titulo, xaxis_title=x_label, yaxis_title=y_label,
+                          showlegend=False, hovermode="closest")
+        return fig
+
     col3, col4, col5 = st.columns(3)
-
     with col3:
-        fig_scatter1 = px.scatter(df, x="TRM_USD_COP", y="Promigas_Price_COP", 
-                                  trendline="ols",
-                                  title="Dispersión: Promigas vs TRM",
-                                  labels={"TRM_USD_COP": "TRM (COP)", "Promigas_Price_COP": "Promigas (COP)"})
-        st.plotly_chart(fig_scatter1, use_container_width=True)
-
+        st.plotly_chart(scatter_con_tendencia(
+            "TRM_USD_COP", "Promigas_Price_COP",
+            "Dispersión: Promigas vs TRM",
+            "#1f77b4", "TRM (COP)", "Promigas (COP)"
+        ), use_container_width=True)
     with col4:
-        fig_scatter2 = px.scatter(df, x="Brent_Oil_USD", y="Promigas_Price_COP", 
-                                  trendline="ols",
-                                  title="Dispersión: Promigas vs Petróleo Brent",
-                                  labels={"Brent_Oil_USD": "Brent (USD)", "Promigas_Price_COP": "Promigas (COP)"})
-        st.plotly_chart(fig_scatter2, use_container_width=True)
-
+        st.plotly_chart(scatter_con_tendencia(
+            "Brent_Oil_USD", "Promigas_Price_COP",
+            "Dispersión: Promigas vs Petróleo Brent",
+            "#2ca02c", "Brent (USD)", "Promigas (COP)"
+        ), use_container_width=True)
     with col5:
-        fig_scatter3 = px.scatter(df, x="NatGas_USD_MMBtu", y="Promigas_Price_COP",
-                                  trendline="ols",
-                                  title="Dispersión: Promigas vs Gas Natural",
-                                  labels={"NatGas_USD_MMBtu": "Gas Natural (USD/MMBtu)", "Promigas_Price_COP": "Promigas (COP)"},
-                                  color_discrete_sequence=["#9467bd"])
-        st.plotly_chart(fig_scatter3, use_container_width=True)
+        st.plotly_chart(scatter_con_tendencia(
+            "NatGas_USD_MMBtu", "Promigas_Price_COP",
+            "Dispersión: Promigas vs Gas Natural",
+            "#9467bd", "Gas Natural (USD/MMBtu)", "Promigas (COP)"
+        ), use_container_width=True)
 
     # Gráfico normalizado: todas las variables juntas
     st.subheader("4. Comparación Normalizada: Promigas vs Todas las Variables (Base 100)")
